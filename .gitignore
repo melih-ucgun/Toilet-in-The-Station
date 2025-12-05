@@ -1,0 +1,7 @@
+# Godot 4.x
+.godot/
+*.translation
+export_presets.cfg
+
+# Blender (Yedek dosyalar gitmesin)
+*.blend1
