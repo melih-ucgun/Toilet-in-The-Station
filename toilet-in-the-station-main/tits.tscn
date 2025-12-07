@@ -1,0 +1,180 @@
+[gd_scene load_steps=19 format=3 uid="uid://bwen3jsreamyb"]
+
+[ext_resource type="Texture2D" uid="uid://cceqk7nca1ou8" path="res://Textures/ground-stone.png" id="1_kqyth"]
+[ext_resource type="Script" uid="uid://bipqf4x5poyjg" path="res://playerMovement.gd" id="2_kff3b"]
+[ext_resource type="Texture2D" uid="uid://huwtvctbhtxe" path="res://Textures/icon.svg" id="3_l6eqs"]
+[ext_resource type="Script" uid="uid://cyb5lhtldbd0t" path="res://etkileşimli_kutu.gd" id="4_4221y"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_kff3b"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l6eqs"]
+albedo_texture = ExtResource("1_kqyth")
+albedo_texture_force_srgb = true
+uv1_scale = Vector3(400, 400, 400)
+uv1_triplanar_sharpness = 2.0705304
+uv1_world_triplanar = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4221y"]
+size = Vector3(400, 1, 400)
+
+[sub_resource type="SystemFont" id="SystemFont_kff3b"]
+font_names = PackedStringArray("", "", "", "", "", "", "", "", "", "")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gshtk"]
+
+[sub_resource type="Environment" id="Environment_j6p1y"]
+ambient_light_color = Color(0.10980392, 0, 0.4745098, 1)
+ambient_light_energy = 0.3
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.004929356, 7.3700214e-08, 0.087271236, 1)
+fog_density = 0.8618
+fog_depth_curve = 0.9330329
+fog_depth_begin = 15.0
+fog_depth_end = 50.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_l6eqs"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4221y"]
+albedo_texture = ExtResource("3_l6eqs")
+albedo_texture_force_srgb = true
+uv1_scale = Vector3(15, 15, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gshtk"]
+size = Vector3(150, 30, 100)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4221y"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l6eqs"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4221y"]
+rough = true
+bounce = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_4221y"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gshtk"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="GroundMesh" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(400, 0, 0, 0, 1, 0, 0, 0, 400, 0, 0, 0)
+mesh = SubResource("BoxMesh_kff3b")
+surface_material_override/0 = SubResource("StandardMaterial3D_l6eqs")
+
+[node name="GroundCollision" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_4221y")
+
+[node name="otoparkLabel" type="Label3D" parent="Ground"]
+transform = Transform3D(0.964, 0, 0, 0, -4.2137774e-08, 0.99999994, 0, -0.9639999, -4.3711385e-08, 11.803534, 0.82590103, -18.452515)
+pixel_size = 0.134
+offset = Vector2(10, 10)
+modulate = Color(0.28056958, 0.00020773232, 0.879708, 1)
+outline_modulate = Color(1, 0.6412437, 0.5749065, 1)
+text = "burası otopark olacak"
+font = SubResource("SystemFont_kff3b")
+font_size = 31
+
+[node name="EntranceLabel" type="Label3D" parent="Ground"]
+transform = Transform3D(0.964, 0, 0, 0, -4.2137774e-08, 0.99999994, 0, -0.9639999, -4.3711385e-08, 109.11319, 0.82865906, 133.87843)
+pixel_size = 0.134
+offset = Vector2(10, 10)
+modulate = Color(0, 0.39621332, 0.14430422, 1)
+outline_modulate = Color(0.53389776, 0.7750432, 1, 1)
+text = "burası giriş olacak"
+font = SubResource("SystemFont_kff3b")
+font_size = 31
+
+[node name="ExitLabel" type="Label3D" parent="Ground"]
+transform = Transform3D(0.964, 0, 0, 0, -4.2137774e-08, 0.99999994, 0, -0.9639999, -4.3711385e-08, -115.11624, 0.82865906, 133.87843)
+pixel_size = 0.134
+offset = Vector2(10, 10)
+modulate = Color(0.51599085, 0.09425037, 0.527834, 1)
+outline_modulate = Color(0, 0.8679698, 0.776347, 1)
+text = "burası çıkış olacak"
+font = SubResource("SystemFont_kff3b")
+font_size = 31
+
+[node name="ExitLabel2" type="Label3D" parent="Ground"]
+transform = Transform3D(0.964, 0, 0, 0, -4.2137774e-08, 0.99999994, 0, -0.9639999, -4.3711385e-08, 153.95674, 0.82865906, -96.66359)
+pixel_size = 0.134
+offset = Vector2(10, 10)
+modulate = Color(1.92523e-06, 0.38205534, 0.33479324, 1)
+outline_modulate = Color(0.8193364, 0.76845986, 0, 1)
+text = "biraz ağaç 
+ve çardak"
+font = SubResource("SystemFont_kff3b")
+font_size = 31
+
+[node name="Player" type="CharacterBody3D" parent="."]
+script = ExtResource("2_kff3b")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.9725245, 0.23280041, 0, -0.23280041, 0.9725245, 0, 1.972142, -0.6219629)
+near = 0.001
+far = 100.0
+
+[node name="RayCast3D" type="RayCast3D" parent="Player/Camera3D"]
+target_position = Vector3(0, 0, -3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, 2.3406792, 0)
+shape = SubResource("CapsuleShape3D_gshtk")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.016893938, 0.9998573, 0, -0.9998573, -0.016893938, 0, 78.915924, 0)
+light_energy = 1.756
+light_indirect_energy = 4.195
+light_volumetric_fog_energy = 1.27
+light_angular_distance = 14.75
+light_specular = 1.21
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_j6p1y")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.803534, 6.7537885, 2.2946396)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(150, 0, 0, 0, 30, 0, 0, 0, 100, 0, 8.832699, -94.622635)
+mesh = SubResource("BoxMesh_l6eqs")
+surface_material_override/0 = SubResource("StandardMaterial3D_4221y")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.0254, -94.94796)
+shape = SubResource("BoxShape3D_gshtk")
+
+[node name="Label3D" type="Label3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.877977, -43.847965)
+pixel_size = 0.134
+offset = Vector2(10, 10)
+modulate = Color(0.55819917, 6.969333e-05, 0.4804765, 1)
+outline_modulate = Color(0.8664041, 0.67098856, 0.88767236, 1)
+text = "burası terminal olacak"
+font = SubResource("SystemFont_kff3b")
+font_size = 31
+
+[node name="EtkileşimliKutu" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+script = ExtResource("4_4221y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="EtkileşimliKutu"]
+mesh = SubResource("BoxMesh_4221y")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EtkileşimliKutu"]
+shape = SubResource("BoxShape3D_l6eqs")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_4221y")
+linear_damp = 0.5
+angular_damp = 1.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 20, -3)
+mesh = SubResource("SphereMesh_4221y")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 20, -3)
+shape = SubResource("SphereShape3D_gshtk")
