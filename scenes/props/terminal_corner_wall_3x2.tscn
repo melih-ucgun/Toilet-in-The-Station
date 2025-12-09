@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqycsy7g54fx1"]
+
+[ext_resource type="PackedScene" uid="uid://dlm2m8sttd2hs" path="res://assets/models/terminal_kose_wall_01.glb" id="1_n24hr"]
+
+[node name="Terminal Corner Wall 3x2" type="Node3D"]
+
+[node name="terminal_kose_wall_01" parent="." instance=ExtResource("1_n24hr")]

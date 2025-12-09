@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0ve1o44fw1u7"]
+
+[ext_resource type="PackedScene" uid="uid://qq72lopnfpg8" path="res://assets/models/asphalt_01.glb" id="1_xd1a2"]
+
+[node name="Asphalt 01" type="Node3D"]
+
+[node name="asphalt_01" parent="." instance=ExtResource("1_xd1a2")]

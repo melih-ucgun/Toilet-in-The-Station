@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhws8p3qqfvig"]
+
+[ext_resource type="PackedScene" uid="uid://c1fy3avn5wc6g" path="res://scenes/world/base.tscn" id="1_lyrwn"]
+[ext_resource type="PackedScene" uid="uid://33yl2mkscaaf" path="res://scenes/world/terminal_building.tscn" id="2_8kfpp"]
+[ext_resource type="PackedScene" uid="uid://broosbb1yng3a" path="res://scenes/player/player.tscn" id="3_gm35s"]
+
+[node name="Terminal Exterior" type="Node3D"]
+
+[node name="Base" parent="." instance=ExtResource("1_lyrwn")]
+
+[node name="Terminal Building" parent="." instance=ExtResource("2_8kfpp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -9)
+
+[node name="Player" parent="." instance=ExtResource("3_gm35s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9169855, 9)

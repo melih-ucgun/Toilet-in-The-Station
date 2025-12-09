@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://n80lfyrd0axs"]
+
+[ext_resource type="PackedScene" uid="uid://ci7q2vpa7ekxu" path="res://assets/models/terminal_door_wall_01.glb" id="1_bc2xc"]
+
+[node name="Terminal Door Wall 3x2" type="Node3D"]
+
+[node name="terminal_door_wall_01" parent="." instance=ExtResource("1_bc2xc")]

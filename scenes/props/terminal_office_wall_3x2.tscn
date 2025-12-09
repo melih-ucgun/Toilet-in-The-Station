@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://20aplt6pyw78"]
+
+[ext_resource type="PackedScene" uid="uid://cttk2yrr6b46r" path="res://assets/models/terminal_flat_gise_01.glb" id="1_6amue"]
+
+[node name="Terminal Office Wall 3x2" type="Node3D"]
+
+[node name="terminal_flat_gise_01" parent="." instance=ExtResource("1_6amue")]
