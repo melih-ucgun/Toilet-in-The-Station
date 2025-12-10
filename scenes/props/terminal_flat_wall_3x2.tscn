@@ -1,16 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://bkx2xf3y4v7qw"]
+[gd_scene load_steps=4 format=3 uid="uid://bkx2xf3y4v7qw"]
 
 [ext_resource type="PackedScene" uid="uid://dcttou84k5vx0" path="res://assets/models/terminal_flat_wall_02.glb" id="1_yd4mb"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yd4mb"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_yd4mb"]
 
-[node name="Terminal Flat Wall 3x2" type="Node3D"]
+[node name="Terminal Flat Wall 3x2" type="StaticBody3D"]
+collision_layer = 255
+physics_material_override = SubResource("PhysicsMaterial_yd4mb")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="terminal_flat_wall_02" parent="." instance=ExtResource("1_yd4mb")]
 
-[node name="terminal_flat_wall_02" parent="StaticBody3D" instance=ExtResource("1_yd4mb")]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(3.9614215, 0, 0, 0, 3, 0, 0, 0, 0.6, 0, 2.4992993, 0)
-visible = false
+[node name="CollisionShape3D" type="CollisionShape3D" parent="terminal_flat_wall_02"]
+transform = Transform3D(4, 0, 0, 0, 6, 0, 0, 0, 0.8, 0, 0.9950249, 0)
 shape = SubResource("BoxShape3D_yd4mb")

@@ -1,7 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://c8pibxhxx3p6"]
+[gd_scene load_steps=3 format=3 uid="uid://c8pibxhxx3p6"]
 
 [ext_resource type="PackedScene" uid="uid://bgo6onm5lnr2p" path="res://assets/models/terminal_window_wall_01.glb" id="1_0t5hf"]
 
-[node name="Terminal Window Wall 3x2" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_0t5hf"]
+
+[node name="Terminal Window Wall 3x2" type="StaticBody3D"]
+collision_layer = 255
+collision_mask = 255
 
 [node name="terminal_window_wall_01" parent="." instance=ExtResource("1_0t5hf")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="terminal_window_wall_01"]
+transform = Transform3D(4, 0, 0, 0, 6, 0, 0, 0, 0.8, 0, 0.9913572, 0)
+shape = SubResource("BoxShape3D_0t5hf")
