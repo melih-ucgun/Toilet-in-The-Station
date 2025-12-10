@@ -7,11 +7,10 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_yd4mb"]
 
 [node name="Terminal Flat Wall 3x2" type="StaticBody3D"]
-collision_layer = 255
 physics_material_override = SubResource("PhysicsMaterial_yd4mb")
 
 [node name="terminal_flat_wall_02" parent="." instance=ExtResource("1_yd4mb")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="terminal_flat_wall_02"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(4, 0, 0, 0, 6, 0, 0, 0, 0.8, 0, 0.9950249, 0)
 shape = SubResource("BoxShape3D_yd4mb")
