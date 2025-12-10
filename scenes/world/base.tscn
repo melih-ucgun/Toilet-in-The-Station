@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://c0ve1o44fw1u7" path="res://scenes/props/asphalt_01.tscn" id="1_2nd6b"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ul6ia"]
+size = Vector3(140, 0.1, 140)
 
 [node name="Base" type="StaticBody3D"]
 collision_layer = 255
@@ -155,5 +156,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, -60)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 0, -60)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(140, 0, 0, 0, 0.1, 0, 0, 0, 140, 0, 0, 0)
 shape = SubResource("BoxShape3D_ul6ia")

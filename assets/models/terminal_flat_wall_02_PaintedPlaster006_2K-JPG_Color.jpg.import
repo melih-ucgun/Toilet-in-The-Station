@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drfnmknalpodn"
+uid="uid://d1eoamlk1ciun"
 path.s3tc="res://.godot/imported/terminal_flat_wall_02_PaintedPlaster006_2K-JPG_Color.jpg-7093e938c72f0dadab7ed066511091b1.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "55d86ea2345f4ad7ad4380201e630be1"
 }
 
 [deps]

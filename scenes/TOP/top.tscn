@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://0nj1cdm0wc2b"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_4kknd"]
+radius = 0.25
+height = 0.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_uk7eb"]
+radius = 0.25
+
+[node name="Top" type="RigidBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_4kknd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_uk7eb")
