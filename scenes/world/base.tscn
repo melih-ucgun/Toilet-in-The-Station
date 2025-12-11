@@ -1,0 +1,159 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1fy3avn5wc6g"]
+
+[ext_resource type="PackedScene" uid="uid://c0ve1o44fw1u7" path="res://scenes/props/asphalt_01.tscn" id="1_2nd6b"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ul6ia"]
+size = Vector3(140, 0.1, 140)
+
+[node name="Base" type="StaticBody3D"]
+collision_layer = 255
+collision_mask = 255
+
+[node name="Asphalt 01" parent="." instance=ExtResource("1_2nd6b")]
+
+[node name="Asphalt 02" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
+
+[node name="Asphalt 03" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+
+[node name="Asphalt 04" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 20)
+
+[node name="Asphalt 05" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
+
+[node name="Asphalt 06" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 20)
+
+[node name="Asphalt 07" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -20)
+
+[node name="Asphalt 08" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+
+[node name="Asphalt 09" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, -20)
+
+[node name="Asphalt 10" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, -20)
+
+[node name="Asphalt 11" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, 0)
+
+[node name="Asphalt 12" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, 20)
+
+[node name="Asphalt 13" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 20)
+
+[node name="Asphalt 14" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0)
+
+[node name="Asphalt 15" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -20)
+
+[node name="Asphalt 16" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -40)
+
+[node name="Asphalt 17" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -40)
+
+[node name="Asphalt 18" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -40)
+
+[node name="Asphalt 19" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, -40)
+
+[node name="Asphalt 20" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, -40)
+
+[node name="Asphalt 21" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, 40)
+
+[node name="Asphalt 22" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 40)
+
+[node name="Asphalt 23" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 40)
+
+[node name="Asphalt 24" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 40)
+
+[node name="Asphalt 25" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 40)
+
+[node name="Asphalt 26" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, 20)
+
+[node name="Asphalt 27" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, 0)
+
+[node name="Asphalt 28" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, -20)
+
+[node name="Asphalt 29" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, -40)
+
+[node name="Asphalt 30" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, 40)
+
+[node name="Asphalt 31" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 0, 20)
+
+[node name="Asphalt 32" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 0, 0)
+
+[node name="Asphalt 33" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 0, -20)
+
+[node name="Asphalt 34" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 0, -40)
+
+[node name="Asphalt 35" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 0, 40)
+
+[node name="Asphalt 36" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, 60)
+
+[node name="Asphalt 37" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 60)
+
+[node name="Asphalt 38" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 60)
+
+[node name="Asphalt 39" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 60)
+
+[node name="Asphalt 40" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 60)
+
+[node name="Asphalt 41" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, 60)
+
+[node name="Asphalt 42" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 0, 60)
+
+[node name="Asphalt 43" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, -60)
+
+[node name="Asphalt 44" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, -60)
+
+[node name="Asphalt 45" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -60)
+
+[node name="Asphalt 46" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -60)
+
+[node name="Asphalt 47" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -60)
+
+[node name="Asphalt 48" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, -60)
+
+[node name="Asphalt 49" parent="." instance=ExtResource("1_2nd6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 0, -60)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_ul6ia")

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://20aplt6pyw78"]
+
+[ext_resource type="PackedScene" uid="uid://cttk2yrr6b46r" path="res://assets/models/terminal_flat_gise_01.glb" id="1_6amue"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6amue"]
+
+[node name="Terminal Office Wall 3x2" type="StaticBody3D"]
+collision_layer = 255
+collision_mask = 255
+
+[node name="terminal_flat_gise_01" parent="." instance=ExtResource("1_6amue")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(4, 0, 0, 0, 6, 0, 0, 0, 0.8, 0, 1, 0)
+shape = SubResource("BoxShape3D_6amue")
