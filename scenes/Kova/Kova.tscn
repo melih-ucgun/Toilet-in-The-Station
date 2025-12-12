@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://daxonootp18yd"]
+
+[ext_resource type="Script" uid="uid://bhr42ufqabash" path="res://scripts/interactions/kova.gd" id="1_pyivi"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_mfuks"]
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_20ob6"]
+albedo_color = Color(0.81960785, 0.8862745, 0.19215687, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_uvq2e"]
+material = SubResource("StandardMaterial3D_20ob6")
+top_radius = 0.4
+bottom_radius = 0.4
+height = 0.1
+
+[node name="Kova" type="RigidBody3D"]
+freeze = true
+script = ExtResource("1_pyivi")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+height = 1.0
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCylinder3D"]
+operation = 2
+radius = 0.4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_mfuks")
+
+[node name="SuMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("CylinderMesh_uvq2e")

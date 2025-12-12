@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://dhws8p3qqfvig"]
+[gd_scene load_steps=10 format=3 uid="uid://dhws8p3qqfvig"]
 
 [ext_resource type="PackedScene" uid="uid://c1fy3avn5wc6g" path="res://scenes/world/base.tscn" id="1_lyrwn"]
 [ext_resource type="PackedScene" uid="uid://33yl2mkscaaf" path="res://scenes/world/terminal_building.tscn" id="2_8kfpp"]
 [ext_resource type="PackedScene" uid="uid://broosbb1yng3a" path="res://scenes/player/player.tscn" id="3_gm35s"]
-[ext_resource type="PackedScene" uid="uid://dv0vpm1dbbuwt" path="res://scenes/etkileşimli kutu/etkilesimli_kutu.tscn" id="4_gm35s"]
+[ext_resource type="PackedScene" uid="uid://dv0vpm1dbbuwt" path="res://scenes/su kutusu/su_kutusu.tscn" id="4_gm35s"]
 [ext_resource type="PackedScene" uid="uid://0nj1cdm0wc2b" path="res://scenes/TOP/top.tscn" id="5_klxhl"]
+[ext_resource type="PackedScene" uid="uid://daxonootp18yd" path="res://scenes/Kova/Kova.tscn" id="6_a6edj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_klxhl"]
 sky_top_color = Color(0, 0.08553343, 0.23857033, 1)
@@ -56,3 +57,6 @@ transform = Transform3D(1, 0, 0, 0, 0.70760024, 0.70661294, 0, -0.70661294, 0.70
 light_color = Color(0.7388771, 0.87428445, 0.9644533, 1)
 light_energy = 0.4
 shadow_enabled = true
+
+[node name="Kova" parent="." instance=ExtResource("6_a6edj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 3)
