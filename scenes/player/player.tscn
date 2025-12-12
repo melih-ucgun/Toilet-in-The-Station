@@ -1,26 +1,59 @@
-[gd_scene load_steps=4 format=3 uid="uid://broosbb1yng3a"]
+[gd_scene load_steps=5 format=3 uid="uid://broosbb1yng3a"]
 
 [ext_resource type="Script" uid="uid://bipqf4x5poyjg" path="res://scripts/player/playerMovement.gd" id="1_8afob"]
 [ext_resource type="PackedScene" uid="uid://cti1vmk8vg6hk" path="res://scenes/Su Damlası/su damlası.tscn" id="2_dovo2"]
+[ext_resource type="PackedScene" uid="uid://caj8iihe5whmu" path="res://scenes/Envanter/slot.tscn" id="3_gmlin"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x7p2l"]
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("hotbar_container")]
 collision_layer = 255
 collision_mask = 255
 script = ExtResource("1_8afob")
 su_damlasi_sahnesi = ExtResource("2_dovo2")
+hotbar_container = NodePath("CanvasLayer/Hotbar")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76554537, 0)
 shape = SubResource("CapsuleShape3D_x7p2l")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.98075336, 0.19525069, 0, -0.19525068, 0.9807534, 0, 1.5589755, -0.18677068)
+transform = Transform3D(1, 0, 0, 0, 0.98075336, 0.19525069, 0, -0.19525068, 0.9807534, 0, 1.2478244, -0.18677068)
 current = true
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
 target_position = Vector3(0, 0, -2)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Hotbar" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -202.0
+offset_top = -64.0
+offset_right = 202.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Slot" parent="CanvasLayer/Hotbar" instance=ExtResource("3_gmlin")]
+layout_mode = 2
+
+[node name="Slot2" parent="CanvasLayer/Hotbar" instance=ExtResource("3_gmlin")]
+layout_mode = 2
+
+[node name="Slot3" parent="CanvasLayer/Hotbar" instance=ExtResource("3_gmlin")]
+layout_mode = 2
+
+[node name="Slot4" parent="CanvasLayer/Hotbar" instance=ExtResource("3_gmlin")]
+layout_mode = 2
+
+[node name="Slot5" parent="CanvasLayer/Hotbar" instance=ExtResource("3_gmlin")]
+layout_mode = 2
+
+[node name="Slot6" parent="CanvasLayer/Hotbar" instance=ExtResource("3_gmlin")]
+layout_mode = 2

@@ -26,7 +26,7 @@ mesh = SubResource("SphereMesh_mon1o")
 shape = SubResource("SphereShape3D_slt46")
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
-target_position = Vector3(0, 0, -2)
+target_position = Vector3(0, 0, -0.6)
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0

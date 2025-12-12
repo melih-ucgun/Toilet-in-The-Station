@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://dv0vpm1dbbuwt"]
+
+[ext_resource type="Script" uid="uid://dbomj1se7vlfq" path="res://scripts/interactions/su_kutusu.gd" id="1_uognd"]
+[ext_resource type="Texture2D" uid="uid://cs28lqx3ysr4u" path="res://assets/textures/klozet.png" id="2_4i8sq"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qvb17"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ssxyk"]
+
+[node name="EtkilesimliKutu" type="StaticBody3D"]
+script = ExtResource("1_uognd")
+ikon = ExtResource("2_4i8sq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_qvb17")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_ssxyk")
