@@ -6,12 +6,12 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x7p2l"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("hotbar_container")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("su_bari")]
 collision_layer = 255
 collision_mask = 255
 script = ExtResource("1_8afob")
+su_bari = NodePath("CanvasLayer2/ProgressBar")
 su_damlasi_sahnesi = ExtResource("2_dovo2")
-hotbar_container = NodePath("CanvasLayer/Hotbar")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, 0, 0)
@@ -57,3 +57,17 @@ layout_mode = 2
 
 [node name="Slot6" parent="CanvasLayer/Hotbar" instance=ExtResource("3_gmlin")]
 layout_mode = 2
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer2"]
+anchors_preset = -1
+anchor_left = 0.4982639
+anchor_right = 0.5017361
+anchor_bottom = 0.041666668
+grow_horizontal = 2
+size_flags_horizontal = 8
+max_value = 50.0
+step = 1.0
+value = 50.0
+metadata/_edit_use_anchors_ = true

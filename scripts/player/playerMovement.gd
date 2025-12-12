@@ -1,6 +1,14 @@
 extends CharacterBody3D
 
-# --- AYARLAR VE SAHNELER ---
+# --- AYARLAR ---
+@export var max_su_deposu: int = 50
+var mevcut_su: int = 50
+
+# --- UI BAĞLANTILARI ---
+@export_group("UI Ayarları")
+@export var su_bari: ProgressBar       # <-- EKSİKTİ, EKLENDİ (Inspector'dan ata!)
+@export var hotbar_container: HBoxContainer # <-- Inspector'dan ata!
+
 @export_group("Sahne Ayarları")
 @export var su_damlasi_sahnesi: PackedScene
 
@@ -15,8 +23,6 @@ extends CharacterBody3D
 @export_group("Kamera ve Etkileşim")
 @export var mouse_sensitivity: float = 0.002
 @export var push_force: float = 2.0
-
-@export_group("Silah Ayarları")
 @export var firlatma_gucu: float = 10.0
 @export var atis_hizi: float = 0.2
 
@@ -24,60 +30,57 @@ extends CharacterBody3D
 @onready var camera: Camera3D = $Camera3D
 @onready var interaction_ray: RayCast3D = $Camera3D/RayCast3D
 
-# DİKKAT: Hotbar'ı kodla aramak yerine Inspector'dan sürükleyeceğiz.
-# Bu sayede "Node not found" hatası almayacaksın.
-@export var hotbar_container: HBoxContainer 
-
 # --- ENVANTER DEĞİŞKENLERİ ---
 var secili_slot_index: int = 0
-# 6 slotluk boş envanter verisi
 var envanter_verisi = [null, null, null, null, null, null]
-
 var ates_edebilir: bool = true
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-	# Eğer Hotbar'ı atamayı unuttuysan oyun çökmesin diye uyarı
-	if hotbar_container == null:
-		print("UYARI: Hotbar Container atanmamış! Lütfen Player Inspector'ına bak.")
+	# 1. Envanter Kontrolü
+	if hotbar_container:
+		envanter_arayuzunu_guncelle()
 	else:
-		arayuzu_guncelle()
+		print("UYARI: Hotbar Container atanmamış!")
 
-# --- GİRDİLER (Input) ---
+	# 2. Su Barı Kontrolü (YENİ EKLENDİ)
+	mevcut_su = max_su_deposu
+	if su_bari:
+		su_bari.max_value = max_su_deposu
+		su_bari.value = mevcut_su
+	else:
+		print("UYARI: Su Barı (ProgressBar) atanmamış!")
+
+# --- GİRDİLER ---
 func _unhandled_input(event: InputEvent) -> void:
-	# Mouse ile Bakış
 	if event is InputEventMouseMotion:
 		rotation.y -= event.relative.x * mouse_sensitivity
 		camera.rotation.x -= event.relative.y * mouse_sensitivity
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-80.0), deg_to_rad(80.0))
 
 func _input(event: InputEvent) -> void:
-	# Envanter Seçimi (Mouse Tekerleği)
+	# Mouse Tekerleği ile Slot Değişimi
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			slot_degistir(-1) # Sola
+			slot_degistir(-1)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			slot_degistir(1)  # Sağa
+			slot_degistir(1)
 
-	# Envanter Seçimi (Rakamlar 1-6)
+	# Rakamlarla Slot Değişimi
 	if event is InputEventKey and event.pressed:
 		if event.keycode >= KEY_1 and event.keycode <= KEY_6:
 			secili_slot_index = event.keycode - KEY_1
-			arayuzu_guncelle()
+			envanter_arayuzunu_guncelle()
 
-# --- FİZİK DÖNGÜSÜ ---
+# --- FİZİK ---
 func _physics_process(delta: float) -> void:
-	# Yön Girdisi
+	# Hareket
 	var input_dir: Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var direction: Vector3 = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
-	# Koşma Kontrolü
-	var target_speed = walk_speed
-	if Input.is_action_pressed("sprint"):
-		target_speed = sprint_speed
+	var target_speed = sprint_speed if Input.is_action_pressed("sprint") else walk_speed
 
-	# Hareket ve Sürtünme
 	if direction:
 		velocity.x = move_toward(velocity.x, direction.x * target_speed, acceleration * delta)
 		velocity.z = move_toward(velocity.z, direction.z * target_speed, acceleration * delta)
@@ -85,7 +88,6 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, friction * delta)
 		velocity.z = move_toward(velocity.z, 0, friction * delta)
 
-	# Yerçekimi
 	if not is_on_floor():
 		velocity.y -= gravity_force * delta
 	elif Input.is_action_just_pressed("jump"):
@@ -93,17 +95,13 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-	# --- ETKİLEŞİMLER ---
-	
-	# "E" Tuşu ile Eşya Toplama
+	# Etkileşimler
 	if Input.is_action_just_pressed("interact"):
 		check_interaction()
 	
-	# Nesneleri İtme (Top, Kutu vs.)
 	if direction != Vector3.ZERO:
 		push_rigid_bodies()
 
-	# Ateş Etme
 	if Input.is_action_pressed("fire") and ates_edebilir:
 		shoot()
 
@@ -113,35 +111,35 @@ func check_interaction():
 	if interaction_ray.is_colliding():
 		var collider = interaction_ray.get_collider()
 		
-		# Kutuya "Beni al" diyoruz. (self = Player)
-		# Böylece kutu bizim 'envantere_ekle' fonksiyonumuzu çalıştırabilir.
+		# Eşya Toplama
 		if collider.has_method("etkilesim_yap"):
 			collider.etkilesim_yap(self)
+			return
 
-func push_rigid_bodies():
-	for i in get_slide_collision_count():
-		var collision = get_slide_collision(i)
-		var collider = collision.get_collider()
-		
-		if collider is RigidBody3D:
-			var normal = collision.get_normal()
-			if normal.y < 0.5: # Sadece yanlardan it, üstüne çıkınca itme
-				var push_dir = -normal
-				push_dir.y = 0
-				push_dir = push_dir.normalized()
-				collider.apply_central_impulse(push_dir * push_force)
+		# Su Doldurma
+		if collider.has_method("su_ver"):
+			var eksik_su = max_su_deposu - mevcut_su
+			if eksik_su <= 0: return
+			
+			var alinan = collider.su_ver(eksik_su)
+			if alinan > 0:
+				mevcut_su += alinan
+				su_bari_guncelle() # <-- EKSİKTİ, EKLENDİ
 
 func shoot():
-	if not su_damlasi_sahnesi:
-		print("HATA: Su damlası sahnesi atanmamış!")
+	if not su_damlasi_sahnesi: return
+	if mevcut_su <= 0:
+		print("Su bitti!")
 		return
-
+	
+	# Mermi Azaltma
+	mevcut_su -= 1
+	su_bari_guncelle() # <-- EKSİKTİ, EKLENDİ
+	
 	ates_edebilir = false
+	
 	var damla = su_damlasi_sahnesi.instantiate()
-	
-	# Sahnenin köküne ekle (Child sorunu olmasın)
 	get_tree().current_scene.add_child(damla)
-	
 	damla.global_position = camera.global_position - camera.global_transform.basis.z * 1.5
 	damla.global_transform.basis = camera.global_transform.basis 
 	damla.apply_central_impulse(-camera.global_transform.basis.z * firlatma_gucu)
@@ -149,62 +147,64 @@ func shoot():
 	await get_tree().create_timer(atis_hizi).timeout
 	ates_edebilir = true
 
-# --- ENVANTER MANTIĞI ---
+func push_rigid_bodies():
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		if collider is RigidBody3D:
+			var normal = collision.get_normal()
+			if normal.y < 0.5:
+				var push_dir = -normal
+				push_dir.y = 0
+				collider.apply_central_impulse(push_dir.normalized() * push_force)
+
+# --- UI GÜNCELLEME ---
+
+func su_bari_guncelle():
+	if su_bari:
+		su_bari.value = mevcut_su # Barı anlık güncelle
 
 func slot_degistir(yon: int):
 	secili_slot_index += yon
-	# Döngüsel geçiş (Sondan başa, baştan sona)
 	if hotbar_container:
 		secili_slot_index = posmod(secili_slot_index, hotbar_container.get_child_count())
-		arayuzu_guncelle()
+		envanter_arayuzunu_guncelle()
 
-func arayuzu_guncelle():
-	if not hotbar_container: return # Hata koruması
+func envanter_arayuzunu_guncelle():
+	if not hotbar_container: return
 	
 	var slotlar = hotbar_container.get_children()
-	
 	for i in range(slotlar.size()):
 		var slot = slotlar[i]
+		var veri = envanter_verisi[i] if i < envanter_verisi.size() else null
 		
-		# Veriyi al
-		var veri = null
-		if i < envanter_verisi.size():
-			veri = envanter_verisi[i]
-		
-		# Görsel parçaları bul
+		# Node'ları bul (İsimlerin Godot ile aynı olduğundan emin ol!)
 		var icon_node = slot.get_node("Icon")
 		var miktar_node = slot.get_node("Miktar")
-		var secim_node = slot.get_node("SecimCercevesi") # DİKKAT: Slot içindeki isim bu olmalı!
+		var secim_node = slot.get_node("SecimCercevesi")
 		
-		# Seçim Çerçevesi
 		secim_node.visible = (i == secili_slot_index)
 		
-		# İkon ve Miktar
-		if veri != null:
+		if veri:
 			icon_node.visible = true
-			if veri["ikon"]: 
-				icon_node.texture = veri["ikon"]
-			
+			icon_node.texture = veri["ikon"]
 			miktar_node.text = str(veri["miktar"])
 			miktar_node.visible = (veri["miktar"] > 1)
 		else:
 			icon_node.visible = false
 			miktar_node.visible = false
 
-# Kutu bu fonksiyonu çağıracak
 func envantere_ekle(esya_adi: String, ikon_resmi = null):
-	# 1. Zaten varsa üstüne ekle
+	# Önce var olan slotu kontrol et
 	for slot in envanter_verisi:
 		if slot != null and slot["isim"] == esya_adi:
 			slot["miktar"] += 1
-			arayuzu_guncelle()
+			envanter_arayuzunu_guncelle()
 			return
 
-	# 2. Yoksa boş yere koy
+	# Yoksa boş slota ekle
 	for i in range(envanter_verisi.size()):
 		if envanter_verisi[i] == null:
 			envanter_verisi[i] = {"isim": esya_adi, "miktar": 1, "ikon": ikon_resmi}
-			arayuzu_guncelle()
+			envanter_arayuzunu_guncelle()
 			return
-			
-	print("Çanta Dolu!")
