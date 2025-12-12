@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dhws8p3qqfvig"]
+[gd_scene load_steps=12 format=3 uid="uid://dhws8p3qqfvig"]
 
 [ext_resource type="PackedScene" uid="uid://c1fy3avn5wc6g" path="res://scenes/world/base.tscn" id="1_lyrwn"]
 [ext_resource type="PackedScene" uid="uid://33yl2mkscaaf" path="res://scenes/world/terminal_building.tscn" id="2_8kfpp"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://dv0vpm1dbbuwt" path="res://scenes/su kutusu/su_kutusu.tscn" id="4_gm35s"]
 [ext_resource type="PackedScene" uid="uid://0nj1cdm0wc2b" path="res://scenes/TOP/top.tscn" id="5_klxhl"]
 [ext_resource type="PackedScene" uid="uid://daxonootp18yd" path="res://scenes/Kova/Kova.tscn" id="6_a6edj"]
+[ext_resource type="PackedScene" uid="uid://dau6up2wgdf88" path="res://scenes/props/dis_duvar_cevre.tscn" id="7_4fiip"]
+[ext_resource type="PackedScene" uid="uid://5ohl00uj52x4" path="res://scenes/props/dis_Dunya_cevre.tscn" id="8_x7sxb"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_klxhl"]
 sky_top_color = Color(0, 0.08553343, 0.23857033, 1)
@@ -60,3 +62,7 @@ shadow_enabled = true
 
 [node name="Kova" parent="." instance=ExtResource("6_a6edj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 3)
+
+[node name="dis_duvar" parent="." instance=ExtResource("7_4fiip")]
+
+[node name="Node3D" parent="." instance=ExtResource("8_x7sxb")]

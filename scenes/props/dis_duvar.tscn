@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://db4a0w1gdehk7"]
+
+[ext_resource type="PackedScene" uid="uid://b2flfw2657spw" path="res://scenes/props/dis_duvar_dogrusu.glb" id="1_lylnr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_baijs"]
+size = Vector3(0.8942871, 2.9349976, 1.1264038)
+
+[node name="Node3D" type="StaticBody3D"]
+
+[node name="dis_duvar_dogrusu" parent="." instance=ExtResource("1_lylnr")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.3315176, 0, 0, 0, 1.3315176, 0, 0, 0, 6.234226, 0.001787927, 0.46051297, -0.5002656)
+shape = SubResource("BoxShape3D_baijs")

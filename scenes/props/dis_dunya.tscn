@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8lw1mv85emwc"]
+
+[ext_resource type="PackedScene" uid="uid://bhx1hmyi42pmo" path="res://scenes/props/cimen_zemin.glb" id="1_d8osd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f6wdj"]
+
+[node name="Node3D" type="StaticBody3D"]
+
+[node name="cimen_zemin" parent="." instance=ExtResource("1_d8osd")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(50, 0, 0, 0, 0.01, 0, 0, 0, 50, 0, 0, 0)
+shape = SubResource("BoxShape3D_f6wdj")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://df1j2sj84hpgn"]
 
-[ext_resource type="Texture2D" uid="uid://huwtvctbhtxe" path="res://assets/textures/icon.svg" id="1_qlmt0"]
+[ext_resource type="Texture2D" uid="uid://c1tl4wqgpahqn" path="res://scenes/Leke/Adsız_tasarım-removebg-preview.png" id="1_qlmt0"]
 [ext_resource type="Script" uid="uid://cn5tw4muvvod6" path="res://scripts/interactions/leke.gd" id="2_28og8"]
 
 [node name="Leke" type="Decal"]

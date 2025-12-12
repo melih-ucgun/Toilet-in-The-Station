@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://8s67fonnsiuu"]
+
+[ext_resource type="PackedScene" uid="uid://ivr0gkkcw27u" path="res://scenes/props/road.glb" id="1_yqmu3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jxh8w"]
+
+[node name="Node3D" type="StaticBody3D"]
+
+[node name="road" parent="." instance=ExtResource("1_yqmu3")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(20, 0, 0, 0, 0.1, 0, 0, 0, 20, 0, 0, 0)
+shape = SubResource("BoxShape3D_jxh8w")
