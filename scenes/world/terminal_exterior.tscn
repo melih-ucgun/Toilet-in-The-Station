@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://dhws8p3qqfvig"]
+[gd_scene load_steps=13 format=3 uid="uid://dhws8p3qqfvig"]
 
 [ext_resource type="PackedScene" uid="uid://c1fy3avn5wc6g" path="res://scenes/world/base.tscn" id="1_lyrwn"]
+[ext_resource type="Script" uid="uid://1akmb444g82m" path="res://scenes/world/pause_menu.gd" id="1_nlqgr"]
 [ext_resource type="PackedScene" uid="uid://33yl2mkscaaf" path="res://scenes/world/terminal_building.tscn" id="2_8kfpp"]
 [ext_resource type="PackedScene" uid="uid://broosbb1yng3a" path="res://scenes/player/player.tscn" id="3_gm35s"]
 [ext_resource type="PackedScene" uid="uid://dv0vpm1dbbuwt" path="res://scenes/su kutusu/su_kutusu.tscn" id="4_gm35s"]
@@ -37,6 +38,42 @@ fog_sky_affect = 0.175
 
 [node name="Terminal Exterior" type="Node3D"]
 
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("1_nlqgr")
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.39215687)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.5
+offset_top = -33.0
+offset_right = 70.5
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="PauseMenu/ColorRect/VBoxContainer"]
+process_mode = 3
+layout_mode = 2
+text = "Devam Et"
+
+[node name="Button2" type="Button" parent="PauseMenu/ColorRect/VBoxContainer"]
+process_mode = 3
+layout_mode = 2
+text = "Ana Menüye Dön"
+
 [node name="Base" parent="." instance=ExtResource("1_lyrwn")]
 
 [node name="Terminal Building" parent="." instance=ExtResource("2_8kfpp")]
@@ -66,3 +103,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 3)
 [node name="dis_duvar" parent="." instance=ExtResource("7_4fiip")]
 
 [node name="Node3D" parent="." instance=ExtResource("8_x7sxb")]
+
+[connection signal="pressed" from="PauseMenu/ColorRect/VBoxContainer/Button" to="PauseMenu" method="_on_button_pressed"]
+[connection signal="pressed" from="PauseMenu/ColorRect/VBoxContainer/Button2" to="PauseMenu" method="_on_button_2_pressed"]
