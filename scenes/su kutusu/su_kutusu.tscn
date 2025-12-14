@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dv0vpm1dbbuwt"]
+[gd_scene load_steps=6 format=3 uid="uid://dv0vpm1dbbuwt"]
 
 [ext_resource type="Script" uid="uid://dbomj1se7vlfq" path="res://scripts/interactions/su_kutusu.gd" id="1_uognd"]
-[ext_resource type="Texture2D" uid="uid://cs28lqx3ysr4u" path="res://assets/textures/klozet.png" id="2_4i8sq"]
+[ext_resource type="Texture2D" uid="uid://huwtvctbhtxe" path="res://assets/textures/icon.svg" id="2_0edxm"]
+[ext_resource type="PackedScene" uid="uid://bx4miu08aleux" path="res://scenes/InteractableArea/interactablearea.tscn" id="3_0edxm"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_qvb17"]
 
@@ -9,10 +10,16 @@
 
 [node name="EtkilesimliKutu" type="StaticBody3D"]
 script = ExtResource("1_uognd")
-ikon = ExtResource("2_4i8sq")
+ikon = ExtResource("2_0edxm")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_qvb17")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_ssxyk")
+
+[node name="InteractableArea" parent="." instance=ExtResource("3_0edxm")]
+
+[connection signal="on_interact" from="InteractableArea" to="." method="_on_interactable_area_on_interact"]
+
+[editable path="InteractableArea"]

@@ -6,7 +6,7 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x7p2l"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("su_bari")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("su_bari") groups=["Player"]]
 collision_layer = 255
 collision_mask = 255
 script = ExtResource("1_8afob")
