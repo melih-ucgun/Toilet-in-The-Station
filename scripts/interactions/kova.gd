@@ -7,18 +7,15 @@ extends RigidBody3D
 var max_su_kapasitesi: int = 100
 var su_miktari: int = 0
 
-# Görsel ayarlar (Kovanın boyutuna göre)
-var max_yukseklik: float = 1.0 # Suyun max scale değeri
-var dip_noktasi: float = -0.45 # Kovanın en dibi (Y pozisyonu)
+# --- SHADER AYARLARI ---
+# Deneme yanılma ile bulduğun değerler:
+var shader_bos_seviye: float = -0.7 
+var shader_dolu_seviye: float = 0.5
 
 func _ready():
-	if su_mesh:
-		# Başlangıçta suyu görsel olarak sıfırla
-		su_mesh.scale.y = 0.01 
-		su_mesh.position.y = dip_noktasi 
-		su_mesh.visible = true
-	
-	print("Kova hazır. Su: ", su_miktari)
+	print("Kova hazır. Başlangıç suyu: ", su_miktari)
+	# Başlangıçta görüntüyü güncelle (0 su - animasyonsuz)
+	gorseli_guncelle(false) 
 
 # --- MERMİ BU FONKSİYONU ÇAĞIRIR (SU DOLDURMA) ---
 func su_doldur(miktar: int):
@@ -32,10 +29,9 @@ func su_doldur(miktar: int):
 		su_miktari = max_su_kapasitesi
 	
 	print("Kova Doluyor... Seviye: ", su_miktari)
-	gorseli_guncelle()
+	gorseli_guncelle(true) # true = animasyonlu yüksel
 
 # --- PLAYER BU FONKSİYONU ÇAĞIRIR (SU ALMA) ---
-# (Bunu unutmuşsun, geri ekledim!)
 func su_ver(istenen_miktar: int) -> int:
 	if su_miktari <= 0:
 		return 0
@@ -44,25 +40,43 @@ func su_ver(istenen_miktar: int) -> int:
 	su_miktari -= verilecek
 	
 	print("Kovadan su alındı. Kalan: ", su_miktari)
-	gorseli_guncelle()
+	gorseli_guncelle(true)
 	
 	return verilecek
 
-# --- GÖRSEL GÜNCELLEME (ORTAK FONKSİYON) ---
-func gorseli_guncelle():
+# --- GÖRSEL GÜNCELLEME (GÜNCELLENMİŞ HALİ) ---
+func gorseli_guncelle(animasyonlu: bool = true):
 	if not su_mesh: return
 	
-	# 1. Hedef Boyut (0 ile 1 arası oranla hesapla)
+	# [ 1. ADIM: GÖRÜNMEZLİK KİLİDİ ]
+	# Eğer su yoksa veya çok çok azsa, objeyi tamamen gizle.
+	# Böylece dipteki yeşil kapak görüntüsü veya gölgeler asla görünmez.
+	if su_miktari <= 0.1:
+		su_mesh.visible = false
+		return # Su yoksa aşağıyı hesaplama, çık.
+	else:
+		su_mesh.visible = true # Su varsa görünür yap.
+	
+	# [ 2. ADIM: MATERYAL KONTROLÜ ]
+	# Materyali al (Shader'a ulaşmak için)
+	var materyal = su_mesh.get_active_material(0)
+	if not materyal:
+		print("HATA: SuMesh üzerinde materyal yok!")
+		return
+
+	# [ 3. ADIM: ORAN HESAPLAMA ]
+	# 0 ile 1 arasında bir oran bul
 	var oran = float(su_miktari) / float(max_su_kapasitesi)
-	var hedef_scale = oran * max_yukseklik
-	if hedef_scale < 0.01: hedef_scale = 0.01
 	
-	# 2. Hedef Pozisyon (Pivot Düzeltme)
-	# Silindir ortadan büyüdüğü için yukarı kaydırıyoruz
-	var hedef_pozisyon = dip_noktasi + (hedef_scale * 1.0) 
+	# [ 4. ADIM: SHADER SEVİYESİ ]
+	# Boş ile Dolu seviye arasında, oran kadar git (Lerp)
+	var hedef_seviye = lerp(shader_bos_seviye, shader_dolu_seviye, oran)
 	
-	# 3. Animasyon
-	var tween = create_tween()
-	tween.set_parallel(true)
-	tween.tween_property(su_mesh, "scale:y", hedef_scale, 0.3).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(su_mesh, "position:y", hedef_pozisyon, 0.3)
+	# [ 5. ADIM: GÖNDERME ]
+	if animasyonlu:
+		# Tween ile akıcı geçiş yap
+		var tween = create_tween()
+		tween.tween_property(materyal, "shader_parameter/doluluk", hedef_seviye, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	else:
+		# Animasyonsuz direkt ayarla (Oyun başında)
+		materyal.set_shader_parameter("doluluk", hedef_seviye)
