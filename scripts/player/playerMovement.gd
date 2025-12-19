@@ -3,12 +3,12 @@ extends CharacterBody3D
 # --- AYARLAR ---
 @export_group("Su / Cephane Ayarları")
 @export var max_su_deposu: int = 50
-var mevcut_su: int = 50 # Başlangıçta dolu olsun mu? (İstersen 0 yapabilirsin)
+var mevcut_su: int = 50 
 
 # --- UI BAĞLANTILARI ---
 @export_group("UI Ayarları")
-@export var su_bari: ProgressBar       # <-- Inspector'dan atamayı unutma!
-@export var hotbar_container: HBoxContainer # <-- Inspector'dan atamayı unutma!
+@export var su_bari: ProgressBar        
+@export var hotbar_container: HBoxContainer 
 
 @export_group("Sahne Ayarları")
 @export var su_damlasi_sahnesi: PackedScene
@@ -49,8 +49,6 @@ func _ready() -> void:
 	if su_bari:
 		su_bari.max_value = max_su_deposu
 		su_bari.value = mevcut_su
-		# Barın stili için (İsteğe bağlı)
-		# su_bari.step = 1.0 
 	else:
 		print("UYARI: Su Barı (ProgressBar) atanmamış!")
 
@@ -109,34 +107,29 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("fire") and ates_edebilir:
 		shoot()
 
-# --- ETKİLEŞİM SİSTEMİ (ÖNEMLİ KISIM) ---
+# --- ETKİLEŞİM SİSTEMİ (DÜZELTİLDİ) ---
 func check_interaction():
+	# 1. Gözümüz bir şeye çarpıyor mu?
 	if interaction_ray.is_colliding():
 		var collider = interaction_ray.get_collider()
 		
-		# 1. Eşya Toplama (Var olan sistemin)
-		if collider.has_method("etkilesim_yap"):
-			collider.etkilesim_yap(self)
-			return
+		# 2. GÜVENLİK KONTROLÜ: Çarptığımız şey 'null' değilse işlem yap (HATAYI ÇÖZEN KISIM)
+		if collider:
+			# A) Eşya Toplama / Kapı Açma
+			if collider.has_method("etkilesim_yap"):
+				collider.etkilesim_yap(self)
+				return 
 
-		# 2. SU DOLDURMA (Kova/Kaynak ile iletişim)
-		# Kova scriptinde "su_ver" fonksiyonu vardı, onu çağırıyoruz.
-		if collider.has_method("su_ver"):
-			# Depomuz ne kadar boş?
-			var eksik_su = max_su_deposu - mevcut_su
-			
-			if eksik_su <= 0:
-				print("Depo zaten tamamen dolu!")
-				return
-			
-			# Kovadan ihtiyacımız kadarını iste
-			# Kova bize verebildiği kadarını (örn: 30 istedik, onda 10 varsa 10) döner.
-			var alinan = collider.su_ver(eksik_su)
-			
-			if alinan > 0:
-				mevcut_su += alinan
-				print("Su dolduruldu: +", alinan, " | Mevcut: ", mevcut_su)
-				su_bari_guncelle() # UI güncelle
+			# B) Su Doldurma
+			if collider.has_method("su_ver"):
+				var eksik_su = max_su_deposu - mevcut_su
+				if eksik_su <= 0:
+					return
+				
+				var alinan = collider.su_ver(eksik_su)
+				if alinan > 0:
+					mevcut_su += alinan
+					su_bari_guncelle()
 
 # --- ATEŞ ETME ---
 func shoot():
@@ -145,8 +138,6 @@ func shoot():
 		return
 		
 	if mevcut_su <= 0:
-		# Mermi yoksa ateş etme
-		# Buraya "tık tık" boş silah sesi ekleyebilirsin
 		return
 	
 	# Mermi Azaltma
@@ -157,7 +148,7 @@ func shoot():
 	
 	var damla = su_damlasi_sahnesi.instantiate()
 	get_tree().current_scene.add_child(damla)
-	# Mermiyi kameranın biraz önünden çıkar
+	
 	damla.global_position = camera.global_position - camera.global_transform.basis.z * 1.0 
 	damla.global_transform.basis = camera.global_transform.basis 
 	damla.apply_central_impulse(-camera.global_transform.basis.z * firlatma_gucu)
@@ -180,7 +171,6 @@ func push_rigid_bodies():
 
 func su_bari_guncelle():
 	if su_bari:
-		# Tween ile akıcı bar hareketi (Opsiyonel Güzellik)
 		var tween = create_tween()
 		tween.tween_property(su_bari, "value", float(mevcut_su), 0.2).set_trans(Tween.TRANS_SINE)
 	else:
@@ -201,7 +191,7 @@ func envanter_arayuzunu_guncelle():
 		var veri = envanter_verisi[i] if i < envanter_verisi.size() else null
 		
 		# Node'ları bul
-		var icon_node = slot.get_node_or_null("Icon") # Hata vermesin diye null check
+		var icon_node = slot.get_node_or_null("Icon") 
 		var miktar_node = slot.get_node_or_null("Miktar")
 		var secim_node = slot.get_node_or_null("SecimCercevesi")
 		
@@ -232,6 +222,7 @@ func envantere_ekle(esya_adi: String, ikon_resmi = null):
 			envanter_verisi[i] = {"isim": esya_adi, "miktar": 1, "ikon": ikon_resmi}
 			envanter_arayuzunu_guncelle()
 			return
+
 # Kaynak (Signal yöntemiyle) bize zorla yakıt vermeye çalışırsa bu çalışır:
 func yakit_ekle(miktar: int) -> int:
 	var bos_yer = max_su_deposu - mevcut_su
@@ -241,8 +232,13 @@ func yakit_ekle(miktar: int) -> int:
 	
 	var alinacak = min(miktar, bos_yer)
 	mevcut_su += alinacak
-	
-	# UI güncelle
 	su_bari_guncelle()
-	
 	return alinacak
+
+# --- ENVANTER KONTROLÜ ---
+func envanterde_var_mi(aranan_esya_adi: String) -> bool:
+	for slot in envanter_verisi:
+		# Slot boş değilse VE ismi aradığımız eşyaysa
+		if slot != null and slot["isim"] == aranan_esya_adi:
+			return true
+	return false

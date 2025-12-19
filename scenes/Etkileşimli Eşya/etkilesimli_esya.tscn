@@ -8,7 +8,7 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ssxyk"]
 
-[node name="EtkilesimliKutu" type="StaticBody3D"]
+[node name="EtkilesimliEsya" type="StaticBody3D"]
 script = ExtResource("1_uognd")
 ikon = ExtResource("2_0edxm")
 
@@ -20,6 +20,6 @@ shape = SubResource("BoxShape3D_ssxyk")
 
 [node name="InteractableArea" parent="." instance=ExtResource("3_0edxm")]
 
-[connection signal="on_interact" from="InteractableArea" to="." method="_on_interactable_area_on_interact"]
+[connection signal="on_interact" from="InteractableArea" to="." method="_on_interactablearea_on_interact"]
 
 [editable path="InteractableArea"]

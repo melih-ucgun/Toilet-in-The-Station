@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://1h7melb1su7h"]
+
+[ext_resource type="Script" uid="uid://dbomj1se7vlfq" path="res://scripts/interactions/su_kutusu.gd" id="1_q8xuk"]
+[ext_resource type="Texture2D" uid="uid://huwtvctbhtxe" path="res://assets/textures/icon.svg" id="2_spxi0"]
+[ext_resource type="PackedScene" uid="uid://bx4miu08aleux" path="res://scenes/InteractableArea/interactablearea.tscn" id="3_boafh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q8xuk"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qvb17"]
+material = SubResource("StandardMaterial3D_q8xuk")
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ssxyk"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="EtkilesimliEsya" type="StaticBody3D"]
+script = ExtResource("1_q8xuk")
+esya_adi = "Anahtar"
+ikon = ExtResource("2_spxi0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_qvb17")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_ssxyk")
+
+[node name="InteractableArea" parent="." instance=ExtResource("3_boafh")]
+
+[connection signal="on_interact" from="InteractableArea" to="." method="_on_interactable_area_on_interact"]
+
+[editable path="InteractableArea"]
