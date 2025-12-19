@@ -1,13 +1,14 @@
 extends CharacterBody3D
 
 # --- AYARLAR ---
+@export_group("Su / Cephane Ayarları")
 @export var max_su_deposu: int = 50
-var mevcut_su: int = 50
+var mevcut_su: int = 50 # Başlangıçta dolu olsun mu? (İstersen 0 yapabilirsin)
 
 # --- UI BAĞLANTILARI ---
 @export_group("UI Ayarları")
-@export var su_bari: ProgressBar       # <-- EKSİKTİ, EKLENDİ (Inspector'dan ata!)
-@export var hotbar_container: HBoxContainer # <-- Inspector'dan ata!
+@export var su_bari: ProgressBar       # <-- Inspector'dan atamayı unutma!
+@export var hotbar_container: HBoxContainer # <-- Inspector'dan atamayı unutma!
 
 @export_group("Sahne Ayarları")
 @export var su_damlasi_sahnesi: PackedScene
@@ -44,11 +45,12 @@ func _ready() -> void:
 	else:
 		print("UYARI: Hotbar Container atanmamış!")
 
-	# 2. Su Barı Kontrolü (YENİ EKLENDİ)
-	mevcut_su = max_su_deposu
+	# 2. Su Barı Başlangıç Ayarı
 	if su_bari:
 		su_bari.max_value = max_su_deposu
 		su_bari.value = mevcut_su
+		# Barın stili için (İsteğe bağlı)
+		# su_bari.step = 1.0 
 	else:
 		print("UYARI: Su Barı (ProgressBar) atanmamış!")
 
@@ -95,52 +97,68 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-	# Etkileşimler
+	# Etkileşimler (E Tuşu)
 	if Input.is_action_just_pressed("interact"):
 		check_interaction()
 	
+	# Fiziksel İtme
 	if direction != Vector3.ZERO:
 		push_rigid_bodies()
 
+	# Ateş Etme (Sol Tık)
 	if Input.is_action_pressed("fire") and ates_edebilir:
 		shoot()
 
-# --- FONKSİYONLAR ---
-
+# --- ETKİLEŞİM SİSTEMİ (ÖNEMLİ KISIM) ---
 func check_interaction():
 	if interaction_ray.is_colliding():
 		var collider = interaction_ray.get_collider()
 		
-		# Eşya Toplama
+		# 1. Eşya Toplama (Var olan sistemin)
 		if collider.has_method("etkilesim_yap"):
 			collider.etkilesim_yap(self)
 			return
 
-		# Su Doldurma
+		# 2. SU DOLDURMA (Kova/Kaynak ile iletişim)
+		# Kova scriptinde "su_ver" fonksiyonu vardı, onu çağırıyoruz.
 		if collider.has_method("su_ver"):
+			# Depomuz ne kadar boş?
 			var eksik_su = max_su_deposu - mevcut_su
-			if eksik_su <= 0: return
 			
+			if eksik_su <= 0:
+				print("Depo zaten tamamen dolu!")
+				return
+			
+			# Kovadan ihtiyacımız kadarını iste
+			# Kova bize verebildiği kadarını (örn: 30 istedik, onda 10 varsa 10) döner.
 			var alinan = collider.su_ver(eksik_su)
+			
 			if alinan > 0:
 				mevcut_su += alinan
-				su_bari_guncelle() # <-- EKSİKTİ, EKLENDİ
+				print("Su dolduruldu: +", alinan, " | Mevcut: ", mevcut_su)
+				su_bari_guncelle() # UI güncelle
 
+# --- ATEŞ ETME ---
 func shoot():
-	if not su_damlasi_sahnesi: return
+	if not su_damlasi_sahnesi: 
+		print("HATA: Su damlası sahnesi atanmamış!")
+		return
+		
 	if mevcut_su <= 0:
-		print("Su bitti!")
+		# Mermi yoksa ateş etme
+		# Buraya "tık tık" boş silah sesi ekleyebilirsin
 		return
 	
 	# Mermi Azaltma
 	mevcut_su -= 1
-	su_bari_guncelle() # <-- EKSİKTİ, EKLENDİ
+	su_bari_guncelle()
 	
 	ates_edebilir = false
 	
 	var damla = su_damlasi_sahnesi.instantiate()
 	get_tree().current_scene.add_child(damla)
-	damla.global_position = camera.global_position - camera.global_transform.basis.z * 1.5
+	# Mermiyi kameranın biraz önünden çıkar
+	damla.global_position = camera.global_position - camera.global_transform.basis.z * 1.0 
 	damla.global_transform.basis = camera.global_transform.basis 
 	damla.apply_central_impulse(-camera.global_transform.basis.z * firlatma_gucu)
 	
@@ -162,7 +180,11 @@ func push_rigid_bodies():
 
 func su_bari_guncelle():
 	if su_bari:
-		su_bari.value = mevcut_su # Barı anlık güncelle
+		# Tween ile akıcı bar hareketi (Opsiyonel Güzellik)
+		var tween = create_tween()
+		tween.tween_property(su_bari, "value", float(mevcut_su), 0.2).set_trans(Tween.TRANS_SINE)
+	else:
+		print("Su barı olmadığı için güncellenemedi.")
 
 func slot_degistir(yon: int):
 	secili_slot_index += yon
@@ -178,21 +200,23 @@ func envanter_arayuzunu_guncelle():
 		var slot = slotlar[i]
 		var veri = envanter_verisi[i] if i < envanter_verisi.size() else null
 		
-		# Node'ları bul (İsimlerin Godot ile aynı olduğundan emin ol!)
-		var icon_node = slot.get_node("Icon")
-		var miktar_node = slot.get_node("Miktar")
-		var secim_node = slot.get_node("SecimCercevesi")
+		# Node'ları bul
+		var icon_node = slot.get_node_or_null("Icon") # Hata vermesin diye null check
+		var miktar_node = slot.get_node_or_null("Miktar")
+		var secim_node = slot.get_node_or_null("SecimCercevesi")
 		
-		secim_node.visible = (i == secili_slot_index)
+		if secim_node: secim_node.visible = (i == secili_slot_index)
 		
 		if veri:
-			icon_node.visible = true
-			icon_node.texture = veri["ikon"]
-			miktar_node.text = str(veri["miktar"])
-			miktar_node.visible = (veri["miktar"] > 1)
+			if icon_node:
+				icon_node.visible = true
+				icon_node.texture = veri["ikon"]
+			if miktar_node:
+				miktar_node.text = str(veri["miktar"])
+				miktar_node.visible = (veri["miktar"] > 1)
 		else:
-			icon_node.visible = false
-			miktar_node.visible = false
+			if icon_node: icon_node.visible = false
+			if miktar_node: miktar_node.visible = false
 
 func envantere_ekle(esya_adi: String, ikon_resmi = null):
 	# Önce var olan slotu kontrol et
@@ -208,3 +232,17 @@ func envantere_ekle(esya_adi: String, ikon_resmi = null):
 			envanter_verisi[i] = {"isim": esya_adi, "miktar": 1, "ikon": ikon_resmi}
 			envanter_arayuzunu_guncelle()
 			return
+# Kaynak (Signal yöntemiyle) bize zorla yakıt vermeye çalışırsa bu çalışır:
+func yakit_ekle(miktar: int) -> int:
+	var bos_yer = max_su_deposu - mevcut_su
+	
+	if bos_yer <= 0:
+		return 0 # Yer yok
+	
+	var alinacak = min(miktar, bos_yer)
+	mevcut_su += alinacak
+	
+	# UI güncelle
+	su_bari_guncelle()
+	
+	return alinacak

@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://dvti1yb4dv24u"]
+
+[ext_resource type="Script" uid="uid://dkn80awf42ojd" path="res://scenes/Kaynak/yakit_kaynagi.gd" id="1_1krqc"]
+[ext_resource type="PackedScene" uid="uid://bx4miu08aleux" path="res://scenes/InteractableArea/interactablearea.tscn" id="2_cci01"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1krqc"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cci01"]
+size = Vector3(2, 2, 2)
+
+[node name="Kaynak" type="StaticBody3D"]
+script = ExtResource("1_1krqc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_1krqc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_cci01")
+
+[node name="InteractableArea" parent="." instance=ExtResource("2_cci01")]
