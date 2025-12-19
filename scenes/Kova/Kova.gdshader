@@ -11,7 +11,7 @@ void vertex() {
     // BURASI ÇOK ÖNEMLİ!
     // Modelin kendi yerel koordinatını burada yakalıyoruz.
     // Senin modelin yan yattığı için Y yerine Z'yi alıyoruz.
-    yerel_yukseklik = VERTEX.z; 
+    yerel_yukseklik = VERTEX.y; 
 }
 
 void fragment() {
